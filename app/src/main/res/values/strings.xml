@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FitnessFormula</string>
+    <string name="title_activity_workout_display">WorkoutDisplay</string>
 </resources>
