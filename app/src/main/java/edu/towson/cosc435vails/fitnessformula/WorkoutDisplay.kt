@@ -31,7 +31,7 @@ class WorkoutDisplay : ComponentActivity() {
 
 @Composable
 fun WorkoutDisplayPage() {
-    Text(text = "Hello")
+    Text(text = "Workout Display Page")
 }
 
 @Preview(showBackground = true)

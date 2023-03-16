@@ -48,7 +48,7 @@ fun MainPage() {
             fontSize = 45.sp,
         )
         Button(
-            {localContext.startActivity(Intent(localContext,WorkoutDisplay:: class.java))},
+            {localContext.startActivity(Intent(localContext,WorkoutDisplay::class.java))},
             modifier = Modifier.padding(20.dp)
         ) {
             Text("New Workouts")
@@ -60,7 +60,7 @@ fun MainPage() {
             Text("Saved Workouts")
         }
         Button(
-            {localContext.startActivity(Intent(localContext,WorkoutDisplay:: class.java))},
+            {localContext.startActivity(Intent(localContext,Settings::class.java))},
             modifier = Modifier.padding(20.dp),
         ) {
             Text("Settings")
