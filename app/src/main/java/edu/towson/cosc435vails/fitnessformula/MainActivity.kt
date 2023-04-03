@@ -54,7 +54,7 @@ fun MainPage() {
             Text("New Workouts")
         }
         Button(
-            {},
+            {localContext.startActivity(Intent(localContext,SavedWorkouts::class.java))},
             modifier = Modifier.padding(20.dp)
         ) {
             Text("Saved Workouts")
