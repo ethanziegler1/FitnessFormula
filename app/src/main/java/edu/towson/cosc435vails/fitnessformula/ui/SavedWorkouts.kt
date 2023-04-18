@@ -1,4 +1,4 @@
-package edu.towson.cosc435vails.fitnessformula
+package edu.towson.cosc435vails.fitnessformula.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import edu.towson.cosc435vails.fitnessformula.ui.theme.FitnessFormulaTheme
 
-class WorkoutDisplay : ComponentActivity() {
+class SavedWorkouts : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,28 +31,25 @@ class WorkoutDisplay : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    WorkoutDisplayPage()
+                    SavedWorkoutsPage()
                 }
             }
         }
     }
 }
 
-data class Exercise(val name: String, val description: String, var selected: Boolean = false)
-
 @Composable
-fun WorkoutDisplayPage() {
-    val exercises = listOf(
-        Exercise("Squats", "Stand with your feet shoulder-width apart and lower your hips until your thighs are parallel to the floor."),
-        Exercise("Push-ups", "Start in a plank position with your hands shoulder-width apart. Lower your body until your chest touches the floor, then push back up."),
-        Exercise("Lunges", "Stand with your feet hip-width apart and take a big step forward with one foot. Lower your body until your front knee is at a 90-degree angle, then push back up.")
+fun SavedWorkoutsPage() {
+    val savedExercises = listOf(
+        Exercise("Lateral Raises", "Stand slightly bent over with two low weight dumbells in front of you and raise your arms to the sides."),
+        Exercise("Situps","Lay on the ground with your knees bent and your feet and back flat on the ground. Then sit up and slide your hands along the ground in front of you until your hands touch your heels.")
     )
 
-    ExerciseLazyColumn(exercises = exercises)
+    SavedExerciseLazyColumn(exercises = savedExercises)
 }
 
 @Composable
-fun ExerciseLazyColumn(exercises: List<Exercise>) {
+fun SavedExerciseLazyColumn(exercises: List<Exercise>) {
     val lazyListState = rememberLazyListState()
 
 
@@ -62,13 +59,13 @@ fun ExerciseLazyColumn(exercises: List<Exercise>) {
                 // add a divider after every other item
                 Divider(Modifier.padding(horizontal = 16.dp))
             }
-            ExerciseCard(exercise = exercise)
+            SavedExerciseCard(exercise = exercise)
         }
     }
 }
 
 @Composable
-fun ExerciseCard(exercise: Exercise) {
+fun SavedExerciseCard(exercise: Exercise) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -99,8 +96,8 @@ fun ExerciseCard(exercise: Exercise) {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview2() {
+fun DefaultPreview3() {
     FitnessFormulaTheme {
-        WorkoutDisplayPage()
+        SavedWorkoutsPage()
     }
 }

@@ -1,4 +1,4 @@
-package edu.towson.cosc435vails.fitnessformula
+package edu.towson.cosc435vails.fitnessformula.ui
 
 import android.content.Intent
 import android.graphics.fonts.FontStyle
@@ -65,14 +65,3 @@ fun SettingsPreview() {
         SettingsPage()
     }
 }
-/*
-TODO-1. MainPage
-TODO-1.a. A help button or tutorial description to describe how to use the app.
-TODO-1.b. A button to take you to a page that provides search fields for workouts.
-TODO-1.c. Format original theme including colors, images, and fonts.
-TODO-1.d. Handle landscape view.
-TODO-1.e. A button to take you to a page where you have stored workout lists.
-TODO-2. Create ViewModels.
-TODO-3. Create Class for Workout objects.
-TODO-4. Create Page for displaying workouts.
-*/

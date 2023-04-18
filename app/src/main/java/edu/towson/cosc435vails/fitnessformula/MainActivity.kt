@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import edu.towson.cosc435vails.fitnessformula.ui.MainScreen
 import edu.towson.cosc435vails.fitnessformula.ui.theme.FitnessFormulaTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,15 +27,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainPage()
+                    MainScreen()
                 }
             }
         }
     }
 }
 
-@Composable
-fun MainPage() {
+/*fun MainPage() {
     val localContext = LocalContext.current
     Column(
         modifier = Modifier
@@ -66,13 +66,12 @@ fun MainPage() {
             Text("Settings")
         }
     }
-}
-
-@Preview(showBackground = true)
+}*/
 @Composable
+@Preview(showBackground = true)
 fun DefaultPreview() {
     FitnessFormulaTheme {
-        MainPage()
+        MainScreen()
     }
 }
 /*
