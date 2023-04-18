@@ -3,6 +3,7 @@ package edu.towson.cosc435vails.fitnessformula
 import android.content.Intent
 import android.graphics.fonts.FontStyle
 import android.os.Bundle
+import android.widget.ToggleButton
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -16,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.towson.cosc435vails.fitnessformula.ui.theme.FitnessFormulaTheme
 
-class MainActivity : ComponentActivity() {
+class Settings : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainPage()
+                    SettingsPage()
                 }
             }
         }
@@ -34,45 +35,34 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainPage() {
+fun SettingsPage() {
     val localContext = LocalContext.current
     Column(
         modifier = Modifier
             .padding(20.dp)
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+
     ) {
         Text(
-            text = "Fitness Formula",
-            color = MaterialTheme.colors.primary,
+            text = "Settings",
             fontSize = 45.sp,
-        )
-        Button(
-            {localContext.startActivity(Intent(localContext,WorkoutDisplay::class.java))},
-            modifier = Modifier.padding(20.dp)
-        ) {
-            Text("New Workouts")
+            color = MaterialTheme.colors.primary)
+        Row(modifier = Modifier
+            .padding(20.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically) {
+
         }
-        Button(
-            {localContext.startActivity(Intent(localContext,SavedWorkouts::class.java))},
-            modifier = Modifier.padding(20.dp)
-        ) {
-            Text("Saved Workouts")
-        }
-        Button(
-            {localContext.startActivity(Intent(localContext,Settings::class.java))},
-            modifier = Modifier.padding(20.dp),
-        ) {
-            Text("Settings")
-        }
+
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun SettingsPreview() {
     FitnessFormulaTheme {
-        MainPage()
+        SettingsPage()
     }
 }
 /*

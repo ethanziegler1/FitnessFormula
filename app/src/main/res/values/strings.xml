@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FitnessFormula</string>
+    <string name="title_activity_workout_display">WorkoutDisplay</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_add_workout">AddWorkout</string>
+    <string name="title_activity_saved_workouts">SavedWorkouts</string>
 </resources>
