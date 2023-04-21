@@ -7,12 +7,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import edu.towson.cosc435vails.fitnessformula.model.Workout
 import edu.towson.cosc435vails.fitnessformula.model.viewmodels.WorkoutListViewModel
+import edu.towson.cosc435vails.fitnessformula.ui.view.SavedWorkoutsView
+import edu.towson.cosc435vails.fitnessformula.ui.view.SettingsView
 import edu.towson.cosc435vails.fitnessformula.ui.view.WorkoutView
 
 
 @Composable
-fun NavGraph(navController: NavHostController = rememberNavController()){
+fun NavGraph(
+    navController: NavHostController = rememberNavController()
+){
     val vm: WorkoutListViewModel = viewModel()
     NavHost(
         navController= navController,
@@ -23,11 +28,11 @@ fun NavGraph(navController: NavHostController = rememberNavController()){
             WorkoutView(workouts)
         }
         composable(Routes.SavedWorkouts.route){
-            TODO("SavedWorkoutsView")
-
+            val savedWorkouts by vm.workouts
+            SavedWorkoutsView(savedWorkouts)
         }
         composable(Routes.Settings.route){
-            TODO("SettingsView()")
+            SettingsView()
         }
 
     }

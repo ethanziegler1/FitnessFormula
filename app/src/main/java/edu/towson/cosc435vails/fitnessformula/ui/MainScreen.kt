@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import edu.towson.cosc435vails.fitnessformula.ui.nav.NavGraph
 import edu.towson.cosc435vails.fitnessformula.ui.nav.Routes
 
 @Composable
@@ -20,7 +21,9 @@ fun MainScreen() {
     Scaffold(
         topBar = { TopBar(nav) },
         bottomBar = { BottomBar(nav) }
-    ) {}
+    ) {
+        //NavGraph(nav) //nav graph in this place crashes app for unknown reason
+    }
 }
 
 @Composable
