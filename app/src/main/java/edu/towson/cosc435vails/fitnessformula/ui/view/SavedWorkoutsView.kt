@@ -40,9 +40,6 @@ fun SavedWorkoutsView(
                 modifier = Modifier.weight(1.0f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // TODO - Hide/comment the delete button
-                // TODO - Add a rememberImagePainter to fetch the icon using iconUrl
-                // TODO - Add an Image with size=128.dp to display the painter
                 Button(onClick= {}, modifier = Modifier.fillMaxWidth()) {
                     Text("Delete")
                 }

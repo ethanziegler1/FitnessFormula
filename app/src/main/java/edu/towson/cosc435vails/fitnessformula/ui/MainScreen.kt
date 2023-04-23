@@ -22,7 +22,7 @@ fun MainScreen() {
         topBar = { TopBar(nav) },
         bottomBar = { BottomBar(nav) }
     ) {
-        //NavGraph(nav) //nav graph in this place crashes app for unknown reason
+        NavGraph(nav) //nav graph in this place crashes app for unknown reason
     }
 }
 
