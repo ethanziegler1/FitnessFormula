@@ -4,9 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -60,7 +59,7 @@ private fun BottomBar(
                 }
             },
             icon = {
-                Icon(Icons.Default.Add, "")
+                Icon(Icons.Rounded.AddCircle, "")
             },
             label = {
                 Text("Exercises")
@@ -88,7 +87,7 @@ private fun BottomBar(
                 }
             },
             icon = {
-                Icon(Icons.Default.Delete, "")
+                Icon(Icons.Default.Star, "")
             },
             label = {
                 Text("Workout")
