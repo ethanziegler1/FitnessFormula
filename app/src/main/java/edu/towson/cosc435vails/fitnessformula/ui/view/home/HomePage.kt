@@ -35,6 +35,17 @@ fun HomeView(navController: NavController) {
         ) {
             Text("New Workouts")
         }
+        Button(
+            onClick = {
+                navController.navigate(Routes.LibraryExercises.route) {
+                    launchSingleTop = true
+                    popUpTo(Routes.LibraryExercises.route) { inclusive = false }
+                }
+            },
+            modifier = Modifier.padding(20.dp)
+        ) {
+            Text("Exercise Library")
+        }
 
     }
 }

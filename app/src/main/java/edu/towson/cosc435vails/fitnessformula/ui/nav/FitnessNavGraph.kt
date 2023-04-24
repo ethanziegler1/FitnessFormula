@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselibrary.ExerciseLibraryView
 import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist.ExerciseListView
 import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist.ExerciseListViewModel
 import edu.towson.cosc435vails.fitnessformula.ui.view.home.HomeView
@@ -42,6 +43,14 @@ fun FitnessNavGraph(
         composable(Routes.SavedWorkouts.route) {
             SavedWorkoutsView(
                 exercises = exerciseListViewModel.checkList.value
+            )
+        }
+        composable(Routes.LibraryExercises.route) {
+            ExerciseLibraryView(
+                exercises = exerciseListViewModel.exerciseList.value,
+                selectedExercise = exerciseListViewModel.selectedExercise.value,
+                onFilter = exerciseListViewModel::onFilterExerciseList,
+                onExerciseClicked = exerciseListViewModel::setSelectedExercise
             )
         }
     }
