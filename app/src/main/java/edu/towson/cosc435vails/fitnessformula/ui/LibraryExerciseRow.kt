@@ -5,7 +5,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,10 +18,9 @@ import edu.towson.cosc435vails.fitnessformula.model.Exercise
 
 @ExperimentalFoundationApi
 @Composable
-fun ExerciseListRow(
+fun LibraryExerciseRow(
     idx: Int,
     exercise: Exercise,
-    onAddChecked: (Int) -> Unit,
     onExerciseClicked: (Exercise) -> Unit
 ) {
     Log.d("TAG", exercise.name)
@@ -60,21 +61,6 @@ fun ExerciseListRow(
                 ) {
                     Text("Description: ", modifier = Modifier.weight(1.0f), softWrap = false, overflow = TextOverflow.Ellipsis )
                     Text(exercise.description, modifier = Modifier.weight(2.0f))
-                }
-            }
-            Column(
-                modifier = Modifier.weight(1.0f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row() {
-                    Checkbox(
-                        checked = exercise.addToWorkout,
-                        onCheckedChange = {
-                            onAddChecked(idx)
-                        },
-                        modifier = Modifier.padding(end = 5.dp)
-                    )
-                    Text("Add")
                 }
             }
         }
