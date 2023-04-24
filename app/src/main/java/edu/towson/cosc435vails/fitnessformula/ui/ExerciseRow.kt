@@ -46,10 +46,10 @@ fun ExerciseListRow(
                     modifier = Modifier.padding(5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Name:", modifier = Modifier.weight(1.0f))
+                    Text("Name:", modifier = Modifier.weight(5.0f))
                     Text(
                         exercise.name,
-                        modifier = Modifier.weight(2.0f),
+                        modifier = Modifier.weight(5.0f),
                         fontSize = 20.sp,
                         color = MaterialTheme.colors.primary
                     )
@@ -58,8 +58,8 @@ fun ExerciseListRow(
                     modifier = Modifier.padding(5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Description: ", modifier = Modifier.weight(1.0f), softWrap = false, overflow = TextOverflow.Ellipsis )
-                    Text(exercise.description, modifier = Modifier.weight(2.0f))
+                    Text("Description: ", modifier = Modifier.weight(5.0f), softWrap = false, overflow = TextOverflow.Ellipsis )
+                    Text(exercise.description, modifier = Modifier.weight(5.0f))
                 }
             }
             Column(
@@ -72,9 +72,15 @@ fun ExerciseListRow(
                         onCheckedChange = {
                             onAddChecked(idx)
                         },
-                        modifier = Modifier.padding(end = 5.dp)
+                        modifier = Modifier.padding(end = 5.dp),
+                        colors = CheckboxDefaults.colors(checkmarkColor = MaterialTheme.colors.primary)
                     )
-                    Text("Add")
+                    Text(
+                        "Add",
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .fillMaxWidth()
+                    )
                 }
             }
         }
