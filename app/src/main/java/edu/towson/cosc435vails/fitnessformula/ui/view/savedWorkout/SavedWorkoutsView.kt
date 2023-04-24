@@ -50,7 +50,7 @@ fun SavedWorkoutsView(
                                     exercise.name,
                                     modifier = Modifier.weight(2.0f),
                                     fontSize = 20.sp,
-                                    color = MaterialTheme.colors.secondary
+                                    color = MaterialTheme.colors.primary
                                 )
                             }
                             Row(
