@@ -1,72 +1,98 @@
 package edu.towson.cosc435vails.fitnessformula.ui
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import edu.towson.cosc435vails.fitnessformula.ui.nav.NavGraph
+import edu.towson.cosc435vails.fitnessformula.ui.nav.FitnessNavGraph
 import edu.towson.cosc435vails.fitnessformula.ui.nav.Routes
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@ExperimentalComposeUiApi
+@ExperimentalFoundationApi
 @Composable
 fun MainScreen() {
     val nav = rememberNavController()
     Scaffold(
-        topBar = { TopBar(nav) },
-        bottomBar = { BottomBar(nav) }
-    ) {
-        //NavGraph(nav) //nav graph in this place crashes app for unknown reason
-    }
-}
-
-@Composable
-fun TopBar(nav: NavHostController) {
-    TopAppBar(/*TODO This is wrong version or something)*/) {
-        IconButton(
-            onClick = {
-                nav.navigate(Routes.Settings.route) {
-                    popUpTo(Routes.Settings.route)
-                }
-            }
-        ) {
-            Icon(Icons.Default.Settings, contentDescription = "Settings Icon")
+        topBar = {
+            TopBar()
+        },
+        bottomBar = {
+            BottomBar(nav = nav)
         }
+    ) {
+        FitnessNavGraph(nav)
     }
 }
 
 @Composable
-fun BottomBar(nav: NavHostController) {
-    val backStateEntry = nav.currentBackStackEntryAsState()
-    val currentDestination = backStateEntry.value?.destination
-    BottomAppBar(/*TODO This is wrong version or something)*/){
+private fun TopBar() {
+    TopAppBar(
+        title = { Text("Fitness Formula") },
+    )
+}
+
+@Composable
+private fun BottomBar(
+    nav: NavHostController
+) {
+    BottomNavigation(
+        elevation = 16.dp
+    ) {
+        val backStack by nav.currentBackStackEntryAsState()
+        val destination = backStack?.destination
         BottomNavigationItem(
-            selected = currentDestination?.route == Routes.WorkoutList.route,
+            selected = destination?.route == Routes.ExerciseList.route,
             onClick = {
-                nav.navigate(Routes.WorkoutList.route) {
-                    popUpTo(Routes.WorkoutList.route)
+                nav.navigate(Routes.ExerciseList.route) {
+                    launchSingleTop = true
+                    popUpTo(Routes.ExerciseList.route) { inclusive = false}
                 }
             },
-            //TODO Get and icon
-            icon = {Icon(Icons.Default.AddCircle, "")}
+            icon = {
+                Icon(Icons.Default.Add, "")
+            },
+            label = {
+                Text("Exercises")
+            }
         )
         BottomNavigationItem(
-            selected = currentDestination?.route == Routes.SavedWorkouts.route,
+            selected = destination?.route == Routes.Home.route,
+            onClick = {
+                nav.navigate(Routes.Home.route) {
+                    launchSingleTop = true
+                }
+            },
+            icon = {
+                Icon(Icons.Default.Home, "")
+            },
+            label = {
+                Text("Home")
+            }
+        )
+        BottomNavigationItem(
+            selected = destination?.route == Routes.SavedWorkouts.route,
             onClick = {
                 nav.navigate(Routes.SavedWorkouts.route) {
-                    popUpTo(Routes.SavedWorkouts.route)
+                    launchSingleTop = true
                 }
             },
-            //TODO Get and icon
-            icon = {Icon(Icons.Default.List, "")}
+            icon = {
+                Icon(Icons.Default.Delete, "")
+            },
+            label = {
+                Text("Workout")
+            }
         )
-
     }
-
 }

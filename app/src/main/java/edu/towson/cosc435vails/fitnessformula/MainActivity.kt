@@ -5,10 +5,12 @@ import android.graphics.fonts.FontStyle
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,6 +20,7 @@ import edu.towson.cosc435vails.fitnessformula.ui.MainScreen
 import edu.towson.cosc435vails.fitnessformula.ui.theme.FitnessFormulaTheme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -34,46 +37,15 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/*fun MainPage() {
-    val localContext = LocalContext.current
-    Column(
-        modifier = Modifier
-            .padding(20.dp)
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Fitness Formula",
-            color = MaterialTheme.colors.primary,
-            fontSize = 45.sp,
-        )
-        Button(
-            {localContext.startActivity(Intent(localContext,WorkoutDisplay::class.java))},
-            modifier = Modifier.padding(20.dp)
-        ) {
-            Text("New Workouts")
-        }
-        Button(
-            {localContext.startActivity(Intent(localContext,SavedWorkouts::class.java))},
-            modifier = Modifier.padding(20.dp)
-        ) {
-            Text("Saved Workouts")
-        }
-        Button(
-            {localContext.startActivity(Intent(localContext,Settings::class.java))},
-            modifier = Modifier.padding(20.dp),
-        ) {
-            Text("Settings")
-        }
-    }
-}*/
-@Composable
-@Preview(showBackground = true)
-fun DefaultPreview() {
-    FitnessFormulaTheme {
-        MainScreen()
-    }
-}
+
+
+//@Composable
+//@Preview(showBackground = true)
+//fun DefaultPreview() {
+//    FitnessFormulaTheme {
+//        MainScreen()
+//    }
+//}
 /*
 TODO-1. MainPage
 TODO-1.a. A help button or tutorial description to describe how to use the app.

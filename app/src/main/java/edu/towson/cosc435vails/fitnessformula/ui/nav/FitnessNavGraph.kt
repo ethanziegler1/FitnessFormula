@@ -1,40 +1,48 @@
 package edu.towson.cosc435vails.fitnessformula.ui.nav
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import edu.towson.cosc435vails.fitnessformula.model.Workout
-import edu.towson.cosc435vails.fitnessformula.model.viewmodels.WorkoutListViewModel
-import edu.towson.cosc435vails.fitnessformula.ui.view.SavedWorkoutsView
-import edu.towson.cosc435vails.fitnessformula.ui.view.SettingsView
-import edu.towson.cosc435vails.fitnessformula.ui.view.WorkoutView
+import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist.ExerciseListView
+import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist.ExerciseListViewModel
+import edu.towson.cosc435vails.fitnessformula.ui.view.home.HomeView
+import edu.towson.cosc435vails.fitnessformula.ui.view.savedWorkout.SavedWorkoutsView
 
 
+@OptIn(ExperimentalFoundationApi::class)
+@ExperimentalFoundationApi
 @Composable
-fun NavGraph(
+fun FitnessNavGraph(
     navController: NavHostController = rememberNavController()
-){
-    val vm: WorkoutListViewModel = viewModel()
+) {
+    val exerciseListViewModel: ExerciseListViewModel = viewModel()
     NavHost(
-        navController= navController,
-        startDestination = Routes.WorkoutList.route
-    ){
-        composable(Routes.WorkoutList.route){
-            val workouts by vm.workouts
-            WorkoutView(workouts)
+        navController = navController,
+        startDestination = Routes.Home.route
+    ) {
+        composable(Routes.Home.route) {
+            HomeView(navController)
         }
-        composable(Routes.SavedWorkouts.route){
-            val savedWorkouts by vm.workouts
-            SavedWorkoutsView(savedWorkouts)
+        composable(Routes.ExerciseList.route) {
+            // Place exercise list screen here
+            ExerciseListView(
+                exercises = exerciseListViewModel.exerciseList.value,
+                selectedExercise = exerciseListViewModel.selectedExercise.value,
+                onAddChecked = exerciseListViewModel::onToggleAdd,
+                onFilter = exerciseListViewModel::onFilterExerciseList,
+                onExerciseClicked = exerciseListViewModel::setSelectedExercise,
+                onSubmit = exerciseListViewModel::filterCheckedExercises,
+                navController = navController
+            )
         }
-        composable(Routes.Settings.route){
-            SettingsView()
+        composable(Routes.SavedWorkouts.route) {
+            SavedWorkoutsView(
+                exercises = exerciseListViewModel.checkList.value
+            )
         }
-
     }
-
 }
