@@ -16,6 +16,7 @@ import edu.towson.cosc435vails.fitnessformula.ui.view.home.HomeView
 import edu.towson.cosc435vails.fitnessformula.ui.view.savedWorkout.SavedWorkoutsView
 
 
+
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalFoundationApi
 @Composable
@@ -32,6 +33,7 @@ fun FitnessNavGraph(
             HomeView(navController)
         }
         composable(Routes.ExerciseList.route) {
+
             // Place exercise list screen here
             ExerciseListView(
                 exercises = exerciseListViewModel.exerciseList.value,

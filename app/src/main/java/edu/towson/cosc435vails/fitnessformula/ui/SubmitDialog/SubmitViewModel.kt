@@ -1,14 +1,21 @@
 package edu.towson.cosc435vails.fitnessformula.ui.SubmitDialog
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SubmitViewModel : ViewModel(), ISubmitViewModel {
 
     private val _showSubmitDialog: MutableState<Boolean> = mutableStateOf(false)
     override val showSubmitDialog: State<Boolean> = _showSubmitDialog
+
+    private var _isLoading: MutableState<Boolean> = mutableStateOf(false)
+    override val isLoading: MutableState<Boolean> = _isLoading
 
     override fun showDialog() {
         _showSubmitDialog.value = true
@@ -17,4 +24,23 @@ class SubmitViewModel : ViewModel(), ISubmitViewModel {
     override fun hideDialog() {
         _showSubmitDialog.value = false
     }
+
+    override fun switchLoading() {
+        _isLoading.value = !_isLoading.value
+    }
+
+    override fun displayLoading() {
+        viewModelScope.launch {
+            Log.d("SubmitViewModel", "isLoading: ${isLoading.value}")
+            switchLoading()
+            delay(2000L)
+            switchLoading()
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        _showSubmitDialog.value = false
+    }
+
 }
