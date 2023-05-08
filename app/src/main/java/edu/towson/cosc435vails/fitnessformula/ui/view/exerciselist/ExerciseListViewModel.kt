@@ -1,9 +1,7 @@
 package edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import edu.towson.cosc435vails.fitnessformula.model.Exercise
 
@@ -20,6 +18,7 @@ class ExerciseListViewModel: ViewModel() {
     private var exercises = exerciseNames.mapIndexed { index, name ->
         Exercise(name, exerciseDescriptions[index], false)
     }
+
     private val _exerciseList: MutableState<List<Exercise>> = mutableStateOf(exercises)
     val exerciseList: State<List<Exercise>> = _exerciseList
 
@@ -52,6 +51,17 @@ class ExerciseListViewModel: ViewModel() {
         exercises = _exerciseList.value
     }
 
+    fun onToggleDelete(idx: Int) {
+        _checkedList.value = _checkedList.value.mapIndexed { index, exercise ->
+            if(idx == index) {
+                exercise.copy(addToWorkout = !exercise.addToWorkout)
+            } else {
+                exercise
+            }
+        }
+        exercises = _checkedList.value
+    }
+
     fun onFilterExerciseList(name: String) {
         _exerciseList.value = exercises.filter { a -> a.name.contains(name, true) }
     }
@@ -59,5 +69,6 @@ class ExerciseListViewModel: ViewModel() {
     //Write a function that filters the exercises based on checked box
     fun filterCheckedExercises(exercises: List<Exercise>) {
         _checkedList.value = _exerciseList.value.filter { a -> a.addToWorkout }
+
     }
 }

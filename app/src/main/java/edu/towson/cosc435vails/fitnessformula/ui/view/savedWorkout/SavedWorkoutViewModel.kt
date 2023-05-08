@@ -18,6 +18,9 @@ class SavedWorkoutViewModel(exerciseList: ExerciseListViewModel) : ViewModel(){
     init {
         _workouts.value = originalList
     }
+
+
+
     fun addExercise(workout: Workout){
         _workouts.value = listOf(workout) + originalList
     }
