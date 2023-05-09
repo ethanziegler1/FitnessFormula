@@ -4,9 +4,11 @@ import edu.towson.cosc435vails.fitnessformula.model.Exercise
 
 interface IExerciseRepository {
 
-    fun getExercises(): List<Exercise>
+    suspend fun getExercises(): List<Exercise>
 
-    fun onToggleAdd(idx: Int)
+    suspend fun onToggleAdd(exercise: Exercise)
+
+    suspend fun addExercise(exercise: Exercise)
 
 
 }

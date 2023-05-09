@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class SubmitViewModel : ViewModel(), ISubmitViewModel {
 
@@ -31,10 +28,12 @@ class SubmitViewModel : ViewModel(), ISubmitViewModel {
 
     override fun displayLoading() {
         viewModelScope.launch {
-            Log.d("SubmitViewModel", "isLoading: ${isLoading.value}")
-            switchLoading()
-            delay(2000L)
-            switchLoading()
+            withContext(Dispatchers.IO) {
+                Log.d("SubmitViewModel", "isLoading: ${isLoading.value}")
+                switchLoading()
+                delay(2000L)
+                switchLoading()
+            }
         }
     }
 

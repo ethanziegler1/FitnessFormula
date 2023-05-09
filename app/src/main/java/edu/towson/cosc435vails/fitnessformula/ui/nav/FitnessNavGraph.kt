@@ -36,14 +36,15 @@ fun FitnessNavGraph(
 
             // Place exercise list screen here
             ExerciseListView(
-                exercises = exerciseListViewModel.exerciseList.value,
+                exercises = exerciseListViewModel.exercises.value,
                 selectedExercise = exerciseListViewModel.selectedExercise.value,
                 onAddChecked = exerciseListViewModel::onToggleAdd,
                 onFilter = exerciseListViewModel::onFilterExerciseList,
                 onExerciseClicked = exerciseListViewModel::setSelectedExercise,
                 onSubmit = exerciseListViewModel::filterCheckedExercises,
                 navController = navController,
-                submitViewModel = submitDialogViewModel
+                submitViewModel = submitDialogViewModel,
+                onFetchImage = exerciseListViewModel::fetchImage
             )
         }
         composable(Routes.SavedWorkouts.route) {
@@ -57,7 +58,8 @@ fun FitnessNavGraph(
                 exercises = exerciseLibraryViewModel.exerciseList.value,
                 selectedExercise = exerciseLibraryViewModel.selectedExercise.value,
                 onFilter = exerciseLibraryViewModel::onFilterExerciseList,
-                onExerciseClicked = exerciseLibraryViewModel::setSelectedExercise
+                onExerciseClicked = exerciseLibraryViewModel::setSelectedExercise,
+                onFetchImage = exerciseListViewModel::fetchImage
             )
         }
     }

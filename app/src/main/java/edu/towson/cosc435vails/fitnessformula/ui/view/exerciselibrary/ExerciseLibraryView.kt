@@ -1,6 +1,7 @@
 package edu.towson.cosc435vails.fitnessformula.ui.view.exerciselibrary
 
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,10 +20,12 @@ fun ExerciseLibraryView(
     selectedExercise: Exercise?,
     onFilter: (String) -> Unit,
     onExerciseClicked: (Exercise) -> Unit,
+    onFetchImage: suspend (String) -> Bitmap?
+
 ) {
     val configuration = LocalConfiguration.current
     if(configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        LandscapeView(selectedExercise = selectedExercise ) {
+        LandscapeView(selectedExercise = selectedExercise, onFetchImage = onFetchImage ) {
             Column(
             ) {
                 SearchBar(onFilter = onFilter)
@@ -31,7 +34,7 @@ fun ExerciseLibraryView(
                         LibraryExerciseRow(
                             idx = idx,
                             exercise = exercise,
-                            onExerciseClicked = onExerciseClicked
+                            onExerciseClicked = onExerciseClicked,
                         )
                     }
                 }

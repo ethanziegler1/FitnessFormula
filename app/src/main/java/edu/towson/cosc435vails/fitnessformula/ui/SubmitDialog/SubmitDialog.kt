@@ -3,7 +3,6 @@ package edu.towson.cosc435vails.fitnessformula.ui.SubmitDialog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -42,10 +41,11 @@ fun SubmitDialog(
                 }
             },
             confirmButton = {
+                // When user clicks ok, display load boar, submit exercises to new workout, pause and remove dialog if user navigates back.
                 TextButton(onClick = {
                     submitViewModel.displayLoading()
                     onSubmit()
-                    CoroutineScope(Dispatchers.Main).launch {
+                    CoroutineScope(Dispatchers.IO).launch {
                         delay(1000L)
                         submitViewModel.hideDialog()
                     }

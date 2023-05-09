@@ -17,7 +17,7 @@ class ExerciseLibraryViewModel: ViewModel() {
         "Hold your body in a straight line from head to toe, supported by your forearms and toes"
     )
     private var exercises = exerciseNames.mapIndexed { index, name ->
-        Exercise(name, exerciseDescriptions[index], false)
+        Exercise(name, exerciseDescriptions[index], false, "")
     }
     private val _exerciseList: MutableState<List<Exercise>> = mutableStateOf(exercises)
     val exerciseList: State<List<Exercise>> = _exerciseList

@@ -1,37 +1,63 @@
 package edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist
 
+import android.app.Application
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.*
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import edu.towson.cosc435vails.fitnessformula.data.ExerciseDatabaseRepository
 import edu.towson.cosc435vails.fitnessformula.data.ExerciseMemoryRepository
 import edu.towson.cosc435vails.fitnessformula.data.IExerciseRepository
 import edu.towson.cosc435vails.fitnessformula.model.Exercise
+import edu.towson.cosc435vails.fitnessformula.network.ExerciseFetcher
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
-class ExerciseListViewModel: ViewModel() {
 
-    private val _repository: IExerciseRepository = ExerciseMemoryRepository()
+class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
 
-    private val _exerciseList: MutableState<List<Exercise>> = mutableStateOf(listOf())
-    val exerciseList: State<List<Exercise>> = _exerciseList
+    private val _exercises: MutableState<List<Exercise>> = mutableStateOf(listOf())
+    val exercises: State<List<Exercise>> = _exercises
+
+    //Initialize exercise fetcher from json db, and repository
+    private val _exerciseFetcher = ExerciseFetcher(getApplication())
+    private lateinit var _repository: IExerciseRepository
 
     //Track currently selected exercise
     private val _selectedExercise: MutableState<Exercise?>
     val selectedExercise: State<Exercise?>
 
+    private val _waiting: MutableState<Boolean> = mutableStateOf(false)
+    val waiting: State<Boolean> = _waiting
+
     //Track exercise to add to workout page
     private val _checkedList: MutableState<List<Exercise>> = mutableStateOf(listOf())
     val checkList: State<List<Exercise>> = _checkedList
 
+
     init {
-        _exerciseList.value = _repository.getExercises()
+        viewModelScope.launch {
+            _waiting.value = true
+            _repository = ExerciseDatabaseRepository(getApplication())
+            try {
+                val exerciseList = _exerciseFetcher.fetchExercises()
+                exerciseList.forEach {exercise -> _repository.addExercise(exercise) }
+            } catch (e: Exception) {
+                Log.e(this@ExerciseListViewModel.javaClass.simpleName, e.message, e)
+            }
+            _exercises.value = _repository.getExercises()
+            _waiting.value = false
+        }
         _selectedExercise = mutableStateOf(null)
         selectedExercise = _selectedExercise
-        _checkedList.value = _repository.getExercises()
     }
 
-    fun onToggleAdd(idx: Int) {
-        _repository.onToggleAdd(idx)
-        _exerciseList.value = _repository.getExercises()
+    fun onToggleAdd(exercise: Exercise) {
+        viewModelScope.launch {
+            _repository.onToggleAdd(exercise)
+            _exercises.value = _repository.getExercises()
+        }
     }
 
     fun setSelectedExercise(exercise: Exercise) {
@@ -39,76 +65,22 @@ class ExerciseListViewModel: ViewModel() {
     }
 
     fun onFilterExerciseList(name: String) {
-        _exerciseList.value = _repository.getExercises().filter { a -> a.name.contains(name, true) }
+        viewModelScope.launch {
+            _exercises.value = _repository.getExercises().filter { a -> a.name.contains(name, true) }
+        }
     }
 
     fun filterCheckedExercises(exercises: List<Exercise>) {
-        _checkedList.value = _exerciseList.value.filter { a -> a.addToWorkout }
+        _checkedList.value = _exercises.value.filter { a -> a.addToWorkout }
 
     }
 
-//    private val exerciseNames = listOf("Push-ups", "Sit-ups", "Squats", "Lunges", "Plank")
-//    private val exerciseDescriptions = listOf(
-//        "Do push-ups with your hands on the ground",
-//        "Lie down and sit up, touching your toes",
-//        "Stand with your feet shoulder-width apart and squat down",
-//        "Step forward with one leg and bend the knee until the thigh is parallel to the ground",
-//        "Hold your body in a straight line from head to toe, supported by your forearms and toes"
-//    )
-//    private var exercises = exerciseNames.mapIndexed { index, name ->
-//        Exercise(name, exerciseDescriptions[index], false)
-//    }
+    suspend fun fetchImage(url: String): Bitmap? {
+        return try {
+            _exerciseFetcher.fetchImage(url)
+        } catch (e: Exception) {
+            null
+        }
+    }
 
-//    private val _exerciseList: MutableState<List<Exercise>> = mutableStateOf(exercises)
-//    val exerciseList: State<List<Exercise>> = _exerciseList
-
-
-//    //Track currently selected exercise
-//    private val _selectedExercise: MutableState<Exercise?> = mutableStateOf(null)
-//    val selectedExercise: State<Exercise?> = _selectedExercise
-
-//    //Track exercise to add to workout page
-//    private val _checkedList: MutableState<List<Exercise>> = mutableStateOf(exercises)
-//    val checkList: State<List<Exercise>> = _checkedList
-
-
-//    fun setExerciseList(exerciseList: List<Exercise>) {
-//        _exerciseList.value = exerciseList
-//    }
-
-//    fun setSelectedExercise(exercise: Exercise) {
-//        _selectedExercise.value = exercise
-//    }
-
-//    fun onToggleAdd(idx: Int) {
-//        _exerciseList.value = _exerciseList.value.mapIndexed { index, exercise ->
-//            if(idx == index) {
-//                exercise.copy(addToWorkout = !exercise.addToWorkout)
-//            } else {
-//                exercise
-//            }
-//        }
-//        exercises = _exerciseList.value
-//    }
-
-//    fun onToggleDelete(idx: Int) {
-//        _checkedList.value = _checkedList.value.mapIndexed { index, exercise ->
-//            if(idx == index) {
-//                exercise.copy(addToWorkout = !exercise.addToWorkout)
-//            } else {
-//                exercise
-//            }
-//        }
-//        exercises = _checkedList.value
-//    }
-
-//    fun onFilterExerciseList(name: String) {
-//        _exerciseList.value = exercises.filter { a -> a.name.contains(name, true) }
-//    }
-
-//    //Write a function that filters the exercises based on checked box
-//    fun filterCheckedExercises(exercises: List<Exercise>) {
-//        _checkedList.value = _exerciseList.value.filter { a -> a.addToWorkout }
-//
-//    }
 }

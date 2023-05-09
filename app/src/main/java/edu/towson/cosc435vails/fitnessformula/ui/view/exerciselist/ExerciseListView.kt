@@ -1,20 +1,18 @@
 package edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist
 
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import edu.towson.cosc435vails.fitnessformula.model.Exercise
 import edu.towson.cosc435vails.fitnessformula.ui.ExerciseListRow
@@ -23,25 +21,26 @@ import edu.towson.cosc435vails.fitnessformula.ui.SearchBar
 import edu.towson.cosc435vails.fitnessformula.ui.SubmitDialog.SubmitDialog
 import edu.towson.cosc435vails.fitnessformula.ui.SubmitDialog.SubmitViewModel
 import edu.towson.cosc435vails.fitnessformula.ui.nav.Routes
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 @Composable
 fun ExerciseListView(
     exercises: List<Exercise>,
     selectedExercise: Exercise?,
-    onAddChecked: (Int) -> Unit,
+    onAddChecked: (Exercise) -> Unit,
+//    onAddChecked: (Int) -> Unit,
     onFilter: (String) -> Unit,
     onExerciseClicked: (Exercise) -> Unit,
     navController: NavController,
     onSubmit: (List<Exercise>) -> Unit,
-    submitViewModel: SubmitViewModel
+    submitViewModel: SubmitViewModel,
+    onFetchImage: suspend (String) -> Bitmap?
+
 ) {
 
     val configuration = LocalConfiguration.current
     if(configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        LandscapeView(selectedExercise = selectedExercise ) {
+        LandscapeView(selectedExercise = selectedExercise, onFetchImage = onFetchImage) {
             Column(
             ) {
                 SubmitDialog(title = "Confirm",
@@ -69,7 +68,8 @@ fun ExerciseListView(
                             idx = idx,
                             exercise = exercise,
                             onAddChecked = onAddChecked,
-                            onExerciseClicked = onExerciseClicked
+                            onExerciseClicked = onExerciseClicked,
+                            onFetchImage = onFetchImage
                         )
                     }
                 }
@@ -102,7 +102,8 @@ fun ExerciseListView(
                         idx = idx,
                         exercise = exercise,
                         onAddChecked = onAddChecked,
-                        onExerciseClicked = onExerciseClicked
+                        onExerciseClicked = onExerciseClicked,
+                        onFetchImage = onFetchImage
                     )
                 }
             }
