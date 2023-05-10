@@ -5,12 +5,20 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import edu.towson.cosc435vails.fitnessformula.data.ExerciseDatabaseRepository
-import edu.towson.cosc435vails.fitnessformula.data.ExerciseMemoryRepository
 import edu.towson.cosc435vails.fitnessformula.data.IExerciseRepository
+import edu.towson.cosc435vails.fitnessformula.data.IWorkoutRepository
+import edu.towson.cosc435vails.fitnessformula.data.WorkoutDatabaseRepository
 import edu.towson.cosc435vails.fitnessformula.model.Exercise
+import edu.towson.cosc435vails.fitnessformula.model.Workout
 import edu.towson.cosc435vails.fitnessformula.network.ExerciseFetcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -35,22 +43,50 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
     private val _checkedList: MutableState<List<Exercise>> = mutableStateOf(listOf())
     val checkList: State<List<Exercise>> = _checkedList
 
+    private lateinit var repositoryW: IWorkoutRepository
+
+//    private val _workouts: MutableState<List<Workout>> = mutableStateOf(listOf())
+//    val workouts: State<List<Workout>> = _workouts
+
+    private val _workouts: MutableStateFlow<List<Workout>> = MutableStateFlow(emptyList())
+    val workouts: StateFlow<List<Workout>> = _workouts.asStateFlow()
+
+
+    private var isDatabasePopulated = false
 
     init {
         viewModelScope.launch {
             _waiting.value = true
             _repository = ExerciseDatabaseRepository(getApplication())
-            try {
-                val exerciseList = _exerciseFetcher.fetchExercises()
-                exerciseList.forEach {exercise -> _repository.addExercise(exercise) }
-            } catch (e: Exception) {
-                Log.e(this@ExerciseListViewModel.javaClass.simpleName, e.message, e)
+            repositoryW = WorkoutDatabaseRepository(getApplication())
+
+            if(!isDatabasePopulated) {
+                try {
+                    val exerciseList = _exerciseFetcher.fetchExercises()
+                    exerciseList.forEach { exercise -> _repository.addExercise(exercise) }
+                } catch (e: Exception) {
+                    Log.e(this@ExerciseListViewModel.javaClass.simpleName, e.message, e)
+                }
+                isDatabasePopulated = true
             }
             _exercises.value = _repository.getExercises()
+            _workouts.value = repositoryW.getWorkouts()
             _waiting.value = false
         }
         _selectedExercise = mutableStateOf(null)
         selectedExercise = _selectedExercise
+    }
+
+    fun loadWorkouts() {
+        viewModelScope.launch {
+            _workouts.value = repositoryW.getWorkouts()
+        }
+    }
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.launch {
+            _repository.clearDatabase()
+        }
     }
 
     fun onToggleAdd(exercise: Exercise) {
@@ -72,7 +108,10 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
 
     fun filterCheckedExercises(exercises: List<Exercise>) {
         _checkedList.value = _exercises.value.filter { a -> a.addToWorkout }
-
+        viewModelScope.launch {
+            val workout = Workout(id = getNextWorkoutId(), exercise = _checkedList.value)
+            repositoryW.addWorkout(workout)
+        }
     }
 
     suspend fun fetchImage(url: String): Bitmap? {
@@ -82,5 +121,21 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
             null
         }
     }
+
+    private suspend fun getNextWorkoutId(): Int {
+        val lastWorkout = repositoryW.getLastWorkout()
+        return if (lastWorkout != null) {
+            lastWorkout.id + 1
+        } else {
+            1
+        }
+    }
+
+    suspend fun getWorkoutById(workoutId: Int): Workout? {
+        return repositoryW.getWorkoutByID(workoutId)
+    }
+
+
+
 
 }

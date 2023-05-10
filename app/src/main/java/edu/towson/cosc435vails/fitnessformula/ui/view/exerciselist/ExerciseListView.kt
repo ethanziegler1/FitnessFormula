@@ -28,14 +28,12 @@ fun ExerciseListView(
     exercises: List<Exercise>,
     selectedExercise: Exercise?,
     onAddChecked: (Exercise) -> Unit,
-//    onAddChecked: (Int) -> Unit,
     onFilter: (String) -> Unit,
     onExerciseClicked: (Exercise) -> Unit,
     navController: NavController,
     onSubmit: (List<Exercise>) -> Unit,
     submitViewModel: SubmitViewModel,
     onFetchImage: suspend (String) -> Bitmap?
-
 ) {
 
     val configuration = LocalConfiguration.current

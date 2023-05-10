@@ -10,5 +10,8 @@ interface IExerciseRepository {
 
     suspend fun addExercise(exercise: Exercise)
 
+    suspend fun clearDatabase()
+
+    suspend fun getExerciseByName(name: String): Exercise?
 
 }

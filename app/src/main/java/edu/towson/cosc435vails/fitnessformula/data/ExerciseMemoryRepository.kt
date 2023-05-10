@@ -39,4 +39,12 @@ class ExerciseMemoryRepository(private var _exercises: List<Exercise>): IExercis
     override suspend fun addExercise(exercise: Exercise) {
         _exercises = listOf(exercise) + _exercises
     }
+
+    override suspend fun clearDatabase() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getExerciseByName(name: String): Exercise? {
+        TODO("Not yet implemented")
+    }
 }

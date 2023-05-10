@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
-import edu.towson.cosc435vails.fitnessformula.model.Exercise
+import edu.towson.cosc435vails.fitnessformula.model.LibraryExercise
 import edu.towson.cosc435vails.fitnessformula.ui.LandscapeView
 import edu.towson.cosc435vails.fitnessformula.ui.LibraryExerciseRow
 import edu.towson.cosc435vails.fitnessformula.ui.SearchBar
@@ -16,16 +16,16 @@ import edu.towson.cosc435vails.fitnessformula.ui.SearchBar
 @ExperimentalFoundationApi
 @Composable
 fun ExerciseLibraryView(
-    exercises: List<Exercise>,
-    selectedExercise: Exercise?,
+    exercises: List<LibraryExercise>,
+    selectedExercise: LibraryExercise?,
     onFilter: (String) -> Unit,
-    onExerciseClicked: (Exercise) -> Unit,
+    onExerciseClicked: (LibraryExercise) -> Unit,
     onFetchImage: suspend (String) -> Bitmap?
 
 ) {
     val configuration = LocalConfiguration.current
     if(configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        LandscapeView(selectedExercise = selectedExercise, onFetchImage = onFetchImage ) {
+        LandscapeLibraryView(selectedExercise = selectedExercise, onFetchImage = onFetchImage ) {
             Column(
             ) {
                 SearchBar(onFilter = onFilter)
@@ -35,6 +35,7 @@ fun ExerciseLibraryView(
                             idx = idx,
                             exercise = exercise,
                             onExerciseClicked = onExerciseClicked,
+                            onFetchImage = onFetchImage
                         )
                     }
                 }
@@ -49,7 +50,8 @@ fun ExerciseLibraryView(
                     LibraryExerciseRow(
                         idx = idx,
                         exercise = exercise,
-                        onExerciseClicked = onExerciseClicked
+                        onExerciseClicked = onExerciseClicked,
+                        onFetchImage = onFetchImage
                     )
                 }
             }

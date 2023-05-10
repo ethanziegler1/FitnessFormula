@@ -1,13 +1,8 @@
 package edu.towson.cosc435vails.fitnessformula.data
 
-import androidx.room.Dao
-import androidx.room.Database
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.RoomDatabase
-import androidx.room.Update
+import androidx.room.*
 import edu.towson.cosc435vails.fitnessformula.model.Exercise
+import java.util.*
 
 @Dao
 interface ExerciseListDao {
@@ -23,7 +18,14 @@ interface ExerciseListDao {
     @Update
     suspend fun updateExercise(exercise: Exercise)
 
+    @Query("DELETE FROM exercises")
+    suspend fun clearDatabase()
+
+    @Query("SELECT * FROM exercises WHERE name = :name LIMIT 1")
+    fun getExerciseByName(name: String): Exercise?
+
 }
+
 
 @Database(entities = [Exercise::class], version = 2, exportSchema = false)
 abstract class ExerciseListDatabase : RoomDatabase() {

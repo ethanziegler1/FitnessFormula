@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import edu.towson.cosc435vails.fitnessformula.model.Workout
 
 @Composable
 fun SettingsView(

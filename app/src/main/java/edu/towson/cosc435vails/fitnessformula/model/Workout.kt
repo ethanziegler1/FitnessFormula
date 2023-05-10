@@ -1,9 +1,14 @@
 package edu.towson.cosc435vails.fitnessformula.model
 
-import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist.ExerciseListViewModel
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "workouts")
 data class Workout(
-    val name: String,
-    val exercises: ExerciseListViewModel
-        ){
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    @ColumnInfo
+    val exercise: List<Exercise>
+) {
 }

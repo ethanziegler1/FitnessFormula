@@ -8,5 +8,9 @@ sealed class Routes(val route: String) {
     object LibraryExercises : Routes("libraryExercises")
 
     object WorkoutList : Routes("workoutList")
+
     object Settings : Routes("settings")
+
+    object WorkoutDetail : Routes("workoutDetail")
+
 }

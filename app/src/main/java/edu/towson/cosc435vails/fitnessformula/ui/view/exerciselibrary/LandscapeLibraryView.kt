@@ -1,9 +1,14 @@
-package edu.towson.cosc435vails.fitnessformula.ui
+package edu.towson.cosc435vails.fitnessformula.ui.view.exerciselibrary
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,12 +16,11 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import edu.towson.cosc435vails.fitnessformula.R
-import edu.towson.cosc435vails.fitnessformula.model.Exercise
 import edu.towson.cosc435vails.fitnessformula.model.LibraryExercise
 
 @Composable
-fun LandscapeView(
-    selectedExercise: Exercise?,
+fun LandscapeLibraryView(
+    selectedExercise: LibraryExercise?,
     onFetchImage: suspend (String) -> Bitmap?,
     content: @Composable () -> Unit
 ) {
