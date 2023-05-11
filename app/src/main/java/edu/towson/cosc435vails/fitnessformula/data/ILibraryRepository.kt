@@ -8,4 +8,7 @@ interface ILibraryRepository {
     suspend fun getExercises(): List<LibraryExercise>
 
     suspend fun addExercise(libraryExercise: LibraryExercise)
+
+    suspend fun getExerciseByName(name: String): LibraryExercise?
+
 }

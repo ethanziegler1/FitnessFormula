@@ -135,6 +135,16 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
         return repositoryW.getWorkoutByID(workoutId)
     }
 
+    suspend fun deleteWorkout(workoutId: Int) {
+        viewModelScope.launch {
+            val workoutToDelete = repositoryW.getWorkoutByID(workoutId)
+            workoutToDelete?.let {
+                repositoryW.deleteWorkout(it)
+                _workouts.value = repositoryW.getWorkouts()
+            }
+        }
+    }
+
 
 
 

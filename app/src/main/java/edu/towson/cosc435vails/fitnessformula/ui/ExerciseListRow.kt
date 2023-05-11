@@ -22,7 +22,6 @@ import edu.towson.cosc435vails.fitnessformula.model.Exercise
 @ExperimentalFoundationApi
 @Composable
 fun ExerciseListRow(
-    idx: Int,
     exercise: Exercise,
     onAddChecked: (Exercise) -> Unit,
     onExerciseClicked: (Exercise) -> Unit,

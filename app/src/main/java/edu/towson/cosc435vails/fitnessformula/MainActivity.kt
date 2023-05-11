@@ -48,13 +48,8 @@ class MainActivity : ComponentActivity() {
 //    }
 //}
 /*
-TODO-1. MainPage
-TODO-1.a. A help button or tutorial description to describe how to use the app.
-TODO-1.b. A button to take you to a page that provides search fields for workouts.
-TODO-1.c. Format original theme including colors, images, and fonts.
-TODO-1.d. Handle landscape view.
-TODO-1.e. A button to take you to a page where you have stored workout lists.
-TODO-2. Create ViewModels.
-TODO-3. Create Class for Workout objects.
-TODO-4. Create Page for displaying workouts.
+
+TODO-5. Utilize Intents (Im thinking a new button on home screen that just links to Youtube Videos of premade Workouts)
+TODO-6. Add more exercises to the API
+TODO-7 Clean up the UI especially the landscape view of images etc.
 */

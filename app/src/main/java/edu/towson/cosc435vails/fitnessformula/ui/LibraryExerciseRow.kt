@@ -26,7 +26,6 @@ import edu.towson.cosc435vails.fitnessformula.model.LibraryExercise
 @ExperimentalFoundationApi
 @Composable
 fun LibraryExerciseRow(
-    idx: Int,
     exercise: LibraryExercise,
     onExerciseClicked: (LibraryExercise) -> Unit,
     onFetchImage: suspend (String) -> Bitmap?
@@ -101,7 +100,7 @@ fun LibraryExerciseRow(
                             contentDescription = ""
                         )
                     }
-
+                    Text("Test text")
                 }
             }
         }

@@ -7,7 +7,9 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "library")
 data class LibraryExercise (
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    @ColumnInfo
     val name: String,
     @ColumnInfo
     val description: String,

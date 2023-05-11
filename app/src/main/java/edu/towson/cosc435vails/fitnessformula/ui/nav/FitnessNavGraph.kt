@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -21,9 +22,7 @@ import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselibrary.ExerciseLi
 import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist.ExerciseListView
 import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselist.ExerciseListViewModel
 import edu.towson.cosc435vails.fitnessformula.ui.view.home.HomeView
-import edu.towson.cosc435vails.fitnessformula.ui.view.savedWorkout.SavedWorkoutsView
-import edu.towson.cosc435vails.fitnessformula.ui.view.savedWorkout.WorkoutDetailView
-import edu.towson.cosc435vails.fitnessformula.ui.view.savedWorkout.WorkoutListScreen
+import edu.towson.cosc435vails.fitnessformula.ui.view.savedWorkout.*
 import okhttp3.Route
 
 
@@ -35,6 +34,10 @@ fun FitnessNavGraph(
 ) {
     val exerciseListViewModel: ExerciseListViewModel = viewModel()
     val submitDialogViewModel: SubmitViewModel = viewModel()
+    val workoutListViewModel: SavedWorkoutsViewModel = viewModel()
+    val setNumberViewModel: SetsViewModel = viewModel()
+    val repNumberViewModel: RepsViewModel = viewModel()
+
     NavHost(
         navController = navController,
         startDestination = Routes.Home.route
@@ -75,8 +78,8 @@ fun FitnessNavGraph(
         composable(Routes.WorkoutList.route) {
             WorkoutListScreen(
                 navController = navController,
-                viewModel = exerciseListViewModel
-//                workouts = exerciseListViewModel.workouts.value
+                viewModel = exerciseListViewModel,
+                workoutListVm = workoutListViewModel
             )
         }
         composable("${Routes.WorkoutDetail.route}/{workoutId}") { navBackStackEntry  ->
@@ -85,7 +88,10 @@ fun FitnessNavGraph(
             if (workoutId != null) {
                 WorkoutDetailView(
                     workoutId = workoutId,
-                    viewModel = exerciseListViewModel
+                    viewModel = exerciseListViewModel,
+                    workoutDetailVm = workoutListViewModel,
+                    setsVm = setNumberViewModel,
+                    repsVm = repNumberViewModel
                 )
             }
         }

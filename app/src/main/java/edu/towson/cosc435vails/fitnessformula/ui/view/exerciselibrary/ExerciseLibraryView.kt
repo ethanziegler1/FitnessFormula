@@ -32,7 +32,6 @@ fun ExerciseLibraryView(
                 LazyColumn {
                     itemsIndexed(exercises) {idx, exercise ->
                         LibraryExerciseRow(
-                            idx = idx,
                             exercise = exercise,
                             onExerciseClicked = onExerciseClicked,
                             onFetchImage = onFetchImage
@@ -48,7 +47,6 @@ fun ExerciseLibraryView(
             LazyColumn {
                 itemsIndexed(exercises) {idx, exercise ->
                     LibraryExerciseRow(
-                        idx = idx,
                         exercise = exercise,
                         onExerciseClicked = onExerciseClicked,
                         onFetchImage = onFetchImage

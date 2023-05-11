@@ -34,4 +34,8 @@ class WorkoutDatabaseRepository(app: Application) : IWorkoutRepository {
         return db.workoutDao().getWorkoutById(workoutId)
     }
 
+    override suspend fun deleteWorkout(workout: Workout) {
+        db.workoutDao().deleteWorkout(workout)
+    }
+
 }

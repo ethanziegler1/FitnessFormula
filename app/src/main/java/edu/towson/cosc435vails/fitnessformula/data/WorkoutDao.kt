@@ -22,6 +22,9 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts WHERE id = :workoutId")
     suspend fun getWorkoutById(workoutId: Int): Workout?
 
+    @Delete
+    suspend fun deleteWorkout(workout: Workout)
+
 }
 
 public class DataConverter {

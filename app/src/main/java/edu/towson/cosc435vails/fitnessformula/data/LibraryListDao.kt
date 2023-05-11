@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.RoomDatabase
+import edu.towson.cosc435vails.fitnessformula.model.Exercise
 import edu.towson.cosc435vails.fitnessformula.model.LibraryExercise
 
 
@@ -16,6 +17,9 @@ interface LibraryListDao {
 
     @Insert
     suspend fun addExercise(libraryExercise: LibraryExercise)
+
+    @Query("SELECT * FROM library WHERE name = :name LIMIT 1")
+    fun getExerciseByName(name: String): LibraryExercise?
 
 
 }

@@ -16,4 +16,6 @@ interface IWorkoutRepository {
 
     suspend fun getWorkoutByID(workoutId: Int): Workout?
 
+    suspend fun deleteWorkout(workout: Workout)
+
 }

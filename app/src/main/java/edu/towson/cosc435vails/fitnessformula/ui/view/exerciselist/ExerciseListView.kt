@@ -63,7 +63,6 @@ fun ExerciseListView(
                 LazyColumn {
                     itemsIndexed(exercises) {idx, exercise ->
                         ExerciseListRow(
-                            idx = idx,
                             exercise = exercise,
                             onAddChecked = onAddChecked,
                             onExerciseClicked = onExerciseClicked,
@@ -97,7 +96,6 @@ fun ExerciseListView(
             LazyColumn {
                 itemsIndexed(exercises) {idx, exercise ->
                     ExerciseListRow(
-                        idx = idx,
                         exercise = exercise,
                         onAddChecked = onAddChecked,
                         onExerciseClicked = onExerciseClicked,
