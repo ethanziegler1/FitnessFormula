@@ -92,7 +92,7 @@ fun LibraryExerciseRow(
                         CircularProgressIndicator()
                     } else if (noImage) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                            painter = painterResource(id = android.R.drawable.spinner_background),
                             contentDescription = ""
                         )
                     } else {
