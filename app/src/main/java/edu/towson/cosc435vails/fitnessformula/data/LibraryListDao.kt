@@ -8,7 +8,6 @@ import androidx.room.RoomDatabase
 import edu.towson.cosc435vails.fitnessformula.model.Exercise
 import edu.towson.cosc435vails.fitnessformula.model.LibraryExercise
 
-
 @Dao
 interface LibraryListDao {
 
@@ -20,7 +19,6 @@ interface LibraryListDao {
 
     @Query("SELECT * FROM library WHERE name = :name LIMIT 1")
     fun getExerciseByName(name: String): LibraryExercise?
-
 
 }
 

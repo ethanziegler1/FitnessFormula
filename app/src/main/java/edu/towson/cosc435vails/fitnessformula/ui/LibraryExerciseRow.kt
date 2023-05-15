@@ -23,6 +23,8 @@ import edu.towson.cosc435vails.fitnessformula.R
 import edu.towson.cosc435vails.fitnessformula.model.Exercise
 import edu.towson.cosc435vails.fitnessformula.model.LibraryExercise
 
+
+// Displays a lazycolumn of the database of exercises, no add functionality.
 @ExperimentalFoundationApi
 @Composable
 fun LibraryExerciseRow(

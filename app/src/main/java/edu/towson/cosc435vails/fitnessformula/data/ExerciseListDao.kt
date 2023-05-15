@@ -26,7 +26,6 @@ interface ExerciseListDao {
 
 }
 
-
 @Database(entities = [Exercise::class], version = 2, exportSchema = false)
 abstract class ExerciseListDatabase : RoomDatabase() {
     abstract fun exerciseListDao(): ExerciseListDao

@@ -41,7 +41,6 @@ class ExerciseDatabaseRepository(app: Application) : IExerciseRepository {
         } else {
             Log.d("ExerciseDatabaseRepo", "Exercise with id ${exercise.id} already exists")
         }
-//        db.exerciseListDao().addExercise(exercise)
     }
 
     override suspend fun clearDatabase() {

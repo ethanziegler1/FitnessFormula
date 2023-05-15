@@ -9,11 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import edu.towson.cosc435vails.fitnessformula.R
 import edu.towson.cosc435vails.fitnessformula.model.Exercise
 import edu.towson.cosc435vails.fitnessformula.model.LibraryExercise
 
+//Landscape view for New workouts and Library only.
 @Composable
 fun LandscapeView(
     selectedExercise: Exercise?,
@@ -36,7 +39,12 @@ fun LandscapeView(
 
                 if(selectedExercise != null) {
 
-                    Text(selectedExercise.name)
+                    Text(
+                        selectedExercise.name,
+                        modifier = Modifier.padding(16.dp),
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
                     LaunchedEffect(key1 = selectedExercise.name) {
                         if(selectedExercise.iconURL != null) {

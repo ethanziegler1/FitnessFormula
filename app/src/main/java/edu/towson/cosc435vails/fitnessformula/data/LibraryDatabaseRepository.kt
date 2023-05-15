@@ -7,7 +7,6 @@ import edu.towson.cosc435vails.fitnessformula.model.Exercise
 import edu.towson.cosc435vails.fitnessformula.model.LibraryExercise
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
 class LibraryDatabaseRepository(app: Application) : ILibraryRepository {
 
     private val db: LibraryListDatabase
@@ -39,7 +38,6 @@ class LibraryDatabaseRepository(app: Application) : ILibraryRepository {
         } else {
             Log.d("LibraryExerciseRepo", "Exercise with id ${libraryExercise.id} already exists")
         }
-//        db.libraryListDao().addExercise(libraryExercise)
     }
 
     override suspend fun getExerciseByName(name: String): LibraryExercise? {

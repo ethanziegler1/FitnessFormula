@@ -16,6 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import edu.towson.cosc435vails.fitnessformula.model.Workout
+import edu.towson.cosc435vails.fitnessformula.ui.DeleteDialog.DeleteViewModel
 import edu.towson.cosc435vails.fitnessformula.ui.SubmitDialog.SubmitViewModel
 import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselibrary.ExerciseLibraryView
 import edu.towson.cosc435vails.fitnessformula.ui.view.exerciselibrary.ExerciseLibraryViewModel
@@ -34,6 +35,7 @@ fun FitnessNavGraph(
 ) {
     val exerciseListViewModel: ExerciseListViewModel = viewModel()
     val submitDialogViewModel: SubmitViewModel = viewModel()
+    val deleteDialogViewModel: DeleteViewModel = viewModel()
     val workoutListViewModel: SavedWorkoutsViewModel = viewModel()
     val setNumberViewModel: SetsViewModel = viewModel()
     val repNumberViewModel: RepsViewModel = viewModel()
@@ -79,7 +81,8 @@ fun FitnessNavGraph(
             WorkoutListScreen(
                 navController = navController,
                 viewModel = exerciseListViewModel,
-                workoutListVm = workoutListViewModel
+                workoutListVm = workoutListViewModel,
+                deleteViewModel = deleteDialogViewModel
             )
         }
         composable("${Routes.WorkoutDetail.route}/{workoutId}") { navBackStackEntry  ->

@@ -13,6 +13,7 @@ import edu.towson.cosc435vails.fitnessformula.ui.LandscapeView
 import edu.towson.cosc435vails.fitnessformula.ui.LibraryExerciseRow
 import edu.towson.cosc435vails.fitnessformula.ui.SearchBar
 
+// View for Exercise Library cards, same as new workout.
 @ExperimentalFoundationApi
 @Composable
 fun ExerciseLibraryView(

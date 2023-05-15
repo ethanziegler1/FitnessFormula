@@ -27,13 +27,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import edu.towson.cosc435vails.fitnessformula.ui.DeleteDialog.DeleteDialog
+import edu.towson.cosc435vails.fitnessformula.ui.DeleteDialog.DeleteViewModel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 
+// Initial view of the created workout from user. Navigated to the bottom right nav button.
 @Composable
 fun SavedWorkoutsView(
     exercises: List<Exercise>,
@@ -89,12 +95,13 @@ fun SavedWorkoutsView(
     }
 }
 
-// Lazy column of saved workouts
+// Lazy column of saved workouts via "Workout List"
 @Composable
 fun WorkoutListScreen(
     navController: NavController,
     viewModel: ExerciseListViewModel,
-    workoutListVm: SavedWorkoutsViewModel
+    workoutListVm: SavedWorkoutsViewModel,
+    deleteViewModel: DeleteViewModel
 ) {
 
     val workoutsState = viewModel.workouts.collectAsState()
@@ -113,11 +120,13 @@ fun WorkoutListScreen(
                 },
                 workoutViewModel = viewModel,
                 viewModel = workoutListVm.apply { setWorkoutName("") },
-                index = index
+                index = index,
+                deleteViewModel = deleteViewModel
             )
         }
     }
 }
+
 
 //Singular Saved Workout List Item
 @Composable
@@ -127,6 +136,7 @@ fun WorkoutListItem(
     workoutViewModel: ExerciseListViewModel,
     viewModel: SavedWorkoutsViewModel,
     index: Int,
+    deleteViewModel: DeleteViewModel
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -142,6 +152,24 @@ fun WorkoutListItem(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
+
+            //Delete Dialog in case the button is mistakenly clicked
+            DeleteDialog(
+                title = "Delete Workout",
+                text = "Are you sure you want to delete this workout?",
+                onSubmit = {
+                    //Delete Workout if yes
+                    coroutineScope.launch {
+                        workoutViewModel.deleteWorkout(workout.id)
+                        viewModel.updateWorkoutName(index, "")
+                    }
+                    deleteViewModel.hideDialog()
+                           },
+                onCancel = {
+                           deleteViewModel.hideDialog()
+                },
+                deleteViewModel = deleteViewModel
+            )
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -155,11 +183,11 @@ fun WorkoutListItem(
                 )
                 Button(
                     onClick = {
-                        coroutineScope.launch {
-                            workoutViewModel.deleteWorkout(workout.id)
-                        }
-                              },
-                    modifier = Modifier.fillMaxWidth().padding(start = 5.dp)
+                        deleteViewModel.showDialog()
+                        },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 5.dp)
                 ) {
                     Text(text = "Delete")
                 }
@@ -171,6 +199,7 @@ fun WorkoutListItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                // Text field to provide name to workout
                 TextField(
                     value = viewModel.workoutName.getOrNull(index) ?: "",
                     onValueChange = {newName ->
@@ -194,7 +223,7 @@ fun WorkoutListItem(
 
 
 
-//Displays the workout correlated with a specific ID
+//Displays the lazy column of Exercises in each custom workout
 @Composable
 fun WorkoutDetailView(
     workoutId: Int,
@@ -205,6 +234,7 @@ fun WorkoutDetailView(
 ) {
 
     var workout by remember { mutableStateOf<Workout?>(null) }
+
 
     LaunchedEffect(key1 = workoutId) {
         viewModel.getWorkoutById(workoutId)?.let { workout = it }
@@ -221,6 +251,11 @@ fun WorkoutDetailView(
     ) {
             LazyColumn {
                 itemsIndexed(exercises) { idx, exercise ->
+                    // create a new ViewModelProvider for each card
+                    val localViewModelStore = LocalViewModelStoreOwner.current
+                    val setsVm = localViewModelStore?.let { ViewModelProvider(it)[setsVm::class.java] }
+                    val repsVm = localViewModelStore?.let { ViewModelProvider(it)[repsVm::class.java] }
+
                     Column() {
                         Card(
                             shape = RoundedCornerShape(5.dp),
@@ -275,45 +310,49 @@ fun WorkoutDetailView(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text("Sets:", modifier = Modifier.weight(1.0f))
-                                    TextField(
-                                        value = setsVm.setsNumber.getOrNull(idx) ?: "",
-                                        onValueChange = { newValue ->
-                                            if (idx < setsVm.setsNumber.size) {
-                                                setsVm.updateSetsNumber(idx, newValue)
-                                            } else {
-                                                setsVm.setSetsNumber(newValue)
+                                    if (setsVm != null) {
+                                        TextField(
+                                            value = setsVm.setsNumber.getOrNull(idx) ?: "",
+                                            onValueChange = { newValue ->
+                                                if (idx < setsVm.setsNumber.size) {
+                                                    setsVm.updateSetsNumber(idx, newValue)
+                                                } else {
+                                                    setsVm.setSetsNumber(newValue)
+                                                }
+                                            },
+                                            label = { Text(text = "Number of Sets")},
+                                            trailingIcon = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Edit,
+                                                    contentDescription = "Edit Icon" )
                                             }
-                                                        },
-                                        label = { Text(text = "Number of Sets")},
-                                        trailingIcon = {
-                                            Icon(
-                                                imageVector = Icons.Default.Edit,
-                                                contentDescription = "Edit Icon" )
-                                        }
 
-                                    )
+                                        )
+                                    }
                                 }
                                 Row(
                                     modifier = Modifier.padding(5.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text("Reps:", modifier = Modifier.weight(1.0f))
-                                    TextField(
-                                        value = repsVm.repsNumber.getOrNull(idx) ?: "",
-                                        onValueChange = { newValue ->
-                                            if (idx < repsVm.repsNumber.size) {
-                                                repsVm.updateRepsNumber(idx, newValue)
-                                            } else {
-                                                repsVm.setRepsNumber(newValue)
+                                    if (repsVm != null) {
+                                        TextField(
+                                            value = repsVm.repsNumber.getOrNull(idx) ?: "",
+                                            onValueChange = { newValue ->
+                                                if (idx < repsVm.repsNumber.size) {
+                                                    repsVm.updateRepsNumber(idx, newValue)
+                                                } else {
+                                                    repsVm.setRepsNumber(newValue)
+                                                }
+                                            },
+                                            label = { Text(text = "Number of Reps")},
+                                            trailingIcon = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Edit,
+                                                    contentDescription = "Edit Icon" )
                                             }
-                                        },
-                                        label = { Text(text = "Number of Reps")},
-                                        trailingIcon = {
-                                            Icon(
-                                                imageVector = Icons.Default.Edit,
-                                                contentDescription = "Edit Icon" )
-                                        }
-                                    )
+                                        )
+                                    }
                                 }
                             }
                         }

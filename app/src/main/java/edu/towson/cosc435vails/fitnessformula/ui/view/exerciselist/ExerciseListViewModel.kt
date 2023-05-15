@@ -54,6 +54,8 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
 
     private var isDatabasePopulated = false
 
+
+    // Fetch the database from custom API
     init {
         viewModelScope.launch {
             _waiting.value = true
@@ -89,6 +91,7 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
+    // Handles state for add checkbox
     fun onToggleAdd(exercise: Exercise) {
         viewModelScope.launch {
             _repository.onToggleAdd(exercise)
@@ -96,16 +99,19 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
+    // handles if the user clicks on a card
     fun setSelectedExercise(exercise: Exercise) {
         _selectedExercise.value = exercise
     }
 
+    // Handles search
     fun onFilterExerciseList(name: String) {
         viewModelScope.launch {
             _exercises.value = _repository.getExercises().filter { a -> a.name.contains(name, true) }
         }
     }
 
+    // Filter out exercises the user wants for workout
     fun filterCheckedExercises(exercises: List<Exercise>) {
         _checkedList.value = _exercises.value.filter { a -> a.addToWorkout }
         viewModelScope.launch {
@@ -114,6 +120,7 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
+    //Get images from the API
     suspend fun fetchImage(url: String): Bitmap? {
         return try {
             _exerciseFetcher.fetchImage(url)
@@ -122,6 +129,7 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
+    //Obtain the next workoutID to grab specific workouts
     private suspend fun getNextWorkoutId(): Int {
         val lastWorkout = repositoryW.getLastWorkout()
         return if (lastWorkout != null) {
@@ -131,10 +139,12 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
+    //Grab the specific workout
     suspend fun getWorkoutById(workoutId: Int): Workout? {
         return repositoryW.getWorkoutByID(workoutId)
     }
 
+    //Delete a workout
     suspend fun deleteWorkout(workoutId: Int) {
         viewModelScope.launch {
             val workoutToDelete = repositoryW.getWorkoutByID(workoutId)

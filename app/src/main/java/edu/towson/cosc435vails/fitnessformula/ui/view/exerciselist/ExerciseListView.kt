@@ -12,9 +12,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import edu.towson.cosc435vails.fitnessformula.model.Exercise
+import edu.towson.cosc435vails.fitnessformula.notification.Notification
 import edu.towson.cosc435vails.fitnessformula.ui.ExerciseListRow
 import edu.towson.cosc435vails.fitnessformula.ui.LandscapeView
 import edu.towson.cosc435vails.fitnessformula.ui.SearchBar
@@ -22,6 +24,7 @@ import edu.towson.cosc435vails.fitnessformula.ui.SubmitDialog.SubmitDialog
 import edu.towson.cosc435vails.fitnessformula.ui.SubmitDialog.SubmitViewModel
 import edu.towson.cosc435vails.fitnessformula.ui.nav.Routes
 
+//View for New workouts
 @ExperimentalFoundationApi
 @Composable
 fun ExerciseListView(
@@ -35,6 +38,9 @@ fun ExerciseListView(
     submitViewModel: SubmitViewModel,
     onFetchImage: suspend (String) -> Bitmap?
 ) {
+
+    val context = LocalContext.current
+    val service = Notification(context)
 
     val configuration = LocalConfiguration.current
     if(configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -50,6 +56,8 @@ fun ExerciseListView(
                             launchSingleTop = true
                             popUpTo(Routes.SavedWorkouts.route) { inclusive = false }
                         }
+                        // Show a notification upon workout creation
+                        service.showNotification()
                     },
                     onCancel = {}
                 )
@@ -58,7 +66,7 @@ fun ExerciseListView(
                     onClick = { submitViewModel.showDialog() },
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    Text(text = "Submit")
+                    Text(text = "Create Workout")
                 }
                 LazyColumn {
                     itemsIndexed(exercises) {idx, exercise ->
@@ -83,6 +91,8 @@ fun ExerciseListView(
                             launchSingleTop = true
                             popUpTo(Routes.SavedWorkouts.route) { inclusive = false }
                         }
+                    // Show a notification upon workout creation
+                    service.showNotification()
                 },
                 onCancel = {}
             )
@@ -91,7 +101,7 @@ fun ExerciseListView(
                 onClick = { submitViewModel.showDialog() },
                 modifier = Modifier.padding(16.dp)
             ) {
-                Text(text = "Submit")
+                Text(text = "Create Workout")
             }
             LazyColumn {
                 itemsIndexed(exercises) {idx, exercise ->
