@@ -4,9 +4,10 @@
 The Fitness Formula application is being created by Ethan Ziegler, Andrew Rosscoe, and Quentin Watson for course COSC435 Mobile Applicateion Development taught by Dr. Randy Valis. The software being used is Jetpack Compose through Android Studio. The language is Kotlin. 
 
 ## Function
-Fitness Formula will provide the user with tailored workout routines based on defined criteria. These criteria will be different exercises from which the user may choose. 
+Fitness Formula will provide the user with an exercise database. The database will be different exercises from which the user may choose. 
 The user will be able to save and delete workouts to and from a list of workout routines.
 The user will also be able to name the custom workout, and track sets and repetitions of each. As well as a exercise complete marker.
+The user will also be able to delete workouts.
 
 ## Third Party Libraries / Resources
 
