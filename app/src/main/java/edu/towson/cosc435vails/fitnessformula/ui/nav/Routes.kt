@@ -9,8 +9,6 @@ sealed class Routes(val route: String) {
 
     object WorkoutList : Routes("workoutList")
 
-    object Settings : Routes("settings")
-
     object WorkoutDetail : Routes("workoutDetail")
 
 }
