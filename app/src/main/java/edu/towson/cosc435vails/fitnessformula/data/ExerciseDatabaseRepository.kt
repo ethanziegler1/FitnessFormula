@@ -30,7 +30,6 @@ class ExerciseDatabaseRepository(app: Application) : IExerciseRepository {
     }
 
     override suspend fun addExercise(exercise: Exercise) {
-        Log.d("ExerciseDatabaseRepo", "Adding exercise: $exercise")
         val existingExercise = withContext(Dispatchers.IO) {
             db.exerciseListDao().getExerciseByName(exercise.name)
         }
