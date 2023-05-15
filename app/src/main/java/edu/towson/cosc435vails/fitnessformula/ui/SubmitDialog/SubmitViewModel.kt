@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 
+// View model for submit dialog when creating new workout.
 class SubmitViewModel : ViewModel(), ISubmitViewModel {
 
     private val _showSubmitDialog: MutableState<Boolean> = mutableStateOf(false)

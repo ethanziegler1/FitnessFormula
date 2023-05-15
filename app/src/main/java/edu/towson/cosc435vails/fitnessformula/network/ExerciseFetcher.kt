@@ -21,6 +21,8 @@ interface IExerciseFetcher {
 
 }
 
+
+// Fetches all the exercise data from the API
 class ExerciseFetcher(private val ctx: Context) : IExerciseFetcher {
 
     private val URL = "https://my-json-server.typicode.com/arosscoe/fitness-formula_api/exercises"

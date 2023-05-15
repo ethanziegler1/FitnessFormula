@@ -46,6 +46,7 @@ public class DataConverter {
 }
 
 
+
 @Database(entities = [Workout::class], version = 2, exportSchema = false)
 @TypeConverters(DataConverter::class)
 abstract class WorkoutListDatabase : RoomDatabase() {

@@ -1,29 +1,23 @@
 package edu.towson.cosc435vails.fitnessformula
 
-import android.content.Intent
-import android.graphics.fonts.FontStyle
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import edu.towson.cosc435vails.fitnessformula.ui.MainScreen
 import edu.towson.cosc435vails.fitnessformula.ui.theme.FitnessFormulaTheme
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             FitnessFormulaTheme {
                 // A surface container using the 'background' color from the theme
@@ -36,6 +30,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }
 
 
