@@ -32,7 +32,6 @@ class ImageWorker(
 ) : CoroutineWorker(ctx, params) {
     override suspend fun doWork(): Result {
         val image_uri = inputData.getString(INPUT_KEY) ?: return Result.failure()
-        val song_name = inputData.getString(INPUT_NAME_KEY) ?: return Result.failure()
 
         val notification = createNotification()
         setForeground(ForegroundInfo(image_uri.hashCode(), notification))
@@ -71,8 +70,8 @@ class ImageWorker(
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Labs App Notification"
-            val descriptionText = "Notification channel for LabsApp"
+            val name = "Fitness Formula Notification"
+            val descriptionText = "Notification channel for Fitness Formula"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
@@ -84,29 +83,8 @@ class ImageWorker(
         }
     }
 
-    private fun saveFile(inputStream: InputStream, name: String): Uri? {
-        val resolver = this.ctx.contentResolver
-        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val cv = ContentValues()
-        cv.put(MediaStore.Images.Media.DISPLAY_NAME, name)
-        cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-//        cv.put(MediaStore.Images.Media.RELATIVE_PATH)
-        val imageURI = resolver.insert(uri, cv)
-        if (imageURI != null) {
-            val outputStream = resolver.openOutputStream(imageURI)
-            if (outputStream != null) {
-                inputStream.use { input ->
-                    outputStream.use { output ->
-                        input.copyTo(output)
-                    }
-                }
-            }
-        }
-        return null
-    }
-
     companion object {
-        val CHANNEL_ID = "edu.towson.cosc435.labsapp.channel"
+        val CHANNEL_ID = "edu.towson.cosc435valis.fitnessformula"
         val INPUT_KEY = "IMAGE_URI"
         val INPUT_NAME_KEY = "IMAGE_NAME"
     }
