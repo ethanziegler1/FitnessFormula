@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.work.*
+import edu.towson.cosc435vails.fitnessformula.workers.ImageWorker
 import edu.towson.cosc435vails.fitnessformula.data.ExerciseDatabaseRepository
 import edu.towson.cosc435vails.fitnessformula.data.IExerciseRepository
 import edu.towson.cosc435vails.fitnessformula.data.IWorkoutRepository
@@ -127,6 +129,20 @@ class ExerciseListViewModel(app: Application): AndroidViewModel(app) {
         } catch (e: Exception) {
             null
         }
+    }
+    fun startWork(){
+        val url = ""
+        val workRequest = OneTimeWorkRequestBuilder<ImageWorker>()
+            .setInputData(
+                workDataOf(ImageWorker.INPUT_KEY to url)
+            )
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+            )
+            .build()
+        WorkManager.getInstance(getApplication()).enqueue(workRequest)
     }
 
     //Obtain the next workoutID to grab specific workouts

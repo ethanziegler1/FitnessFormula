@@ -59,7 +59,7 @@ fun FitnessNavGraph(
                 onSubmit = exerciseListViewModel::filterCheckedExercises,
                 navController = navController,
                 submitViewModel = submitDialogViewModel,
-                onFetchImage = exerciseListViewModel::fetchImage,
+                onFetchImage = exerciseListViewModel::fetchImage
             )
         }
         composable(Routes.SavedWorkouts.route) {
