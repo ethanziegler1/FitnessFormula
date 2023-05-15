@@ -1,5 +1,4 @@
-package edu.towson.cosc435.labsapp.workers
-
+package edu.towson.cosc435vails.fitnessformula.workers
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -32,7 +31,6 @@ class ImageWorker(
 ) : CoroutineWorker(ctx, params) {
     override suspend fun doWork(): Result {
         val image_uri = inputData.getString(INPUT_KEY) ?: return Result.failure()
-
         val notification = createNotification()
         setForeground(ForegroundInfo(image_uri.hashCode(), notification))
         delay(5 * 1000)
